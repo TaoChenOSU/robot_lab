@@ -1,0 +1,52 @@
+(1) Explain the difference between the different allocations of the arrays a, b, and c.
+    Go into as much detail as you like.
+    Consider what possible problems could arise from each type of allocation.
+
+int main()
+{
+	static int a[100000];
+
+	int b[100000];
+
+	int *c = malloc(100000 * sizeof(int));
+}
+
+1. The first declaration: The array has all its elements initialized to 0. The array is static meaning if it's declared within a function the next time the function is called the data within the array is still avaliable. (unchanged). only use dwhen necessary because the program has to maintian the data even when you have exited the scope of the funciton. And also static variables are only visiable within the file where they are declared and initialized.
+
+2. The second declaration: array b can hold 100000 elements of int type. The initial values in the array is undefined. 
+
+3. The third declaration: c is a pointer to the beginning of the 100000 long interger array. The allocated memory can be freed if no longer needed. But also could cause memory leas if forget to free the memory.
+
+(2) Explain what the following code is doing.
+
+unsigned int x = some_value();
+unsigned int y = 0;
+while (x != 0) {
+	y += x & 1;
+	x = x >> 1;
+}
+
+The routine counts how many bits are set to 1 in x.
+y is essentially a mask for counting.
+Everytime x is being left-shifted, the right-most bit becomes either 1 or 0. If it's 1, then increament y.
+Ant the end, x will become 0 (continusly dividing an iteger by 2) and y will have the number of set bits in x.
+
+
+(3) After running the following code, what is the value of `a`?
+
+void g(int x) { 
+	x += 1; 
+}
+void f(int &x) {	//I believe you can only do this in C++. & makes x a reference. Kinda like pointer 
+	*x += 1; 	//in C, but it's immutable. And you don't need to use * to get the value of x.
+}
+
+int a = 100;
+g(a);	// a = 100, because of pass by value
+f(&a);	// In c++, you don't need to get the pointer of a to pass the reference to f. I think this will 
+	// produce an error.
+
+(4) What does the `const` keyword mean in C and where would you use it?
+"const" means the variable cannot be modified once initialized. And it must be initialized at declaration.
+1. When you are passing a pointer to a function, it's better to const pointer at function prototypes such that the function cannot modify the data the pointer is pointing to.
+2. When you want to declare a numerical constant although you could use #define.

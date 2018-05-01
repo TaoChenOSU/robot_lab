@@ -1,0 +1,54 @@
+//====================
+struct FullyConnectLayer test_layer;
+test_layer.name="test_layer";
+test_layer.input_dim = 120;
+test_layer.output_dim = 4;
+
+double **data;
+data = malloc(sizeof(double*)*3);
+double step = 0.6/(3*120-1);
+int k = 0;
+for(i = 0; i < 3; i++){
+  data[i] = malloc(sizeof(double)*120);
+  for(j = 0; j < 120; j++){
+    data[i][j] = -0.1+(k*step);
+    k++;
+  }
+}
+for(i = 0; i < 3; i++){
+  for(j = 0; j < 120; j++){
+    printf("%.10f ", data[i][j]);
+  }
+}
+step = 0.5/(480-1);
+k = 0;
+test_layer.weight = malloc(sizeof(double*)*120);
+for(i = 0; i < 120; i++){
+  test_layer.weight[i] = malloc(sizeof(double)*4);
+  for(j = 0; j < 4; j++){
+    test_layer.weight[i][j] = -0.2+(k*step);
+    k++;
+  }
+}
+for(i = 0; i < 120; i++){
+  for(j = 0; j < 4; j++){
+    printf("%.10f ", test_layer.weight[i][j]);
+  }
+}
+test_layer.bias = malloc(sizeof(double)*4);
+step = 0.4/3;
+k = 0;
+for(j = 0; j < 4; j++){
+  test_layer.bias[j] = -0.3+k*step;
+  k++;
+}
+double **output;
+output = forward_pass(&test_layer, data, 3, 120);
+printf("\n");
+for(i = 0; i < 3; i++){
+  for(j = 0; j < 4; j++){
+    printf("%.10f ", output[i][j]);
+  }
+  printf("\n");
+}
+//====================
